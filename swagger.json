@@ -1,0 +1,13 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "MIAU Backend API Documentation",
+    "description": "Back-end API to improve workplace environment",
+    "contact": {
+      "name": "Rafael Ribeiro",
+      "url": "https://www.wophi.be/miau/support",
+      "email": "miau@wophi.be"
+    },
+    "version": "0.0.1"
+  }
+}
