@@ -5,9 +5,9 @@ name: BACK-MIAU CI - Continuous Integration
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ['main']
   pull_request:
-    branches: [ "main", "develop" ]
+    branches: ['main', 'develop']
 
 jobs:
   pre-merge:
@@ -17,19 +17,34 @@ jobs:
         node-version: [18.x]
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Install dependencies
-      run: npm install
-    
-    - name: Run tests
-      run: npm test
+      - name: Install dependencies
+        run: npm install
 
-    - name: Code review
-      run: npx eslint .
+      - name: Run tests
+        run: |
+          export PORT=$APP_PORT
+          export DATABASE_URL=$DATABASE_URL_SECRET
+          export POSTGRES_DB=$POSTGRES_DB_SECRET
+          export POSTGRES_USER=$POSTGRES_USER_SECRET
+          export POSTGRES_PASSWORD=$POSTGRES_PASSWORD_SECRET
+          export POSTGRES_HOST_CONTAINER=$POSTGRES_HOST_PORT
+          npm test
+
+        env:
+          APP_PORT: ${{ secrets.APP_PORT }}
+          DATABASE_URL_SECRET: ${{ secrets.DATABASE_URL }}
+          POSTGRES_DB_SECRET: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER_SECRET: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD_SECRET: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_HOST_PORT: ${{ secrets.POSTGRES_HOST_CONTAINER }}
+
+      - name: Code review
+        run: npx eslint .
