@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
-import { PrismaService } from './modules/prisma.service';
+import { PrismaService } from './prisma.service';
 
 @Module({
   imports: [
