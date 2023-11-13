@@ -43,14 +43,14 @@ describe('UserController', () => {
       expect(result).toEqual(mockPrismaEmployee);
     });
 
-    // it('should throw an error', async () => {
-    //   jest
-    //     .spyOn(createAdminService, 'execute')
-    //     .mockRejectedValueOnce(new Error());
+    it('should throw an error', async () => {
+      jest
+        .spyOn(createAdminService, 'execute')
+        .mockRejectedValueOnce(new Error());
 
-    //   await expect(
-    //     controller.createAdminUser(mockCreateUserBody),
-    //   ).rejects.toThrowError();
-    // });
+      await expect(
+        controller.createAdmin(mockCreateUserBody),
+      ).rejects.toThrow();
+    });
   });
 });
