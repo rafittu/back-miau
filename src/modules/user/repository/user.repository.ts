@@ -3,6 +3,7 @@ import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../../prisma.service';
 import { AppError } from '../../../common/errors/Error';
 import { IUserRepository } from '../interfaces/repository.interface';
+import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UserRole } from '../enum/user-role.enum';
 
@@ -23,12 +24,15 @@ export class UserRepository implements IUserRepository {
     } = data;
 
     try {
+      const salt = await bcrypt.genSalt();
+      const encryptedPassword = await bcrypt.hash(password, salt);
+
       const userBodyRequest = {
         first_name: firstName,
         last_name: lastName,
         username,
         email,
-        password,
+        password: encryptedPassword,
         phone,
         position,
         role,
