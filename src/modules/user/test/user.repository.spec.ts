@@ -65,22 +65,18 @@ describe('UserRepository', () => {
       }
     });
 
-    // it('should throw an error if user is not created', async () => {
-    //   jest
-    //     .spyOn(userRepository as any, 'almaRequest')
-    //     .mockResolvedValueOnce(mockAlmaUser);
+    it('should throw an error if user is not created', async () => {
+      jest
+        .spyOn(prismaService.employeeInfo, 'create')
+        .mockRejectedValueOnce(new Error());
 
-    //   jest
-    //     .spyOn(prismaService.user, 'create')
-    //     .mockRejectedValueOnce(new Error());
-
-    //   try {
-    //     await userRepository.createUser(mockCreateUserBody, UserRole.CLIENT);
-    //   } catch (error) {
-    //     expect(error).toBeInstanceOf(AppError);
-    //     expect(error.code).toBe(500);
-    //     expect(error.message).toBe('user not created');
-    //   }
-    // });
+      try {
+        await userRepository.createUser(mockCreateUserBody, UserRole.USER);
+      } catch (error) {
+        expect(error).toBeInstanceOf(AppError);
+        expect(error.code).toBe(500);
+        expect(error.message).toBe('user not created');
+      }
+    });
   });
 });
