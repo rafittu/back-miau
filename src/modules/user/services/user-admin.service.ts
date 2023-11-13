@@ -14,7 +14,7 @@ export class CreateAdminUserService {
 
   async execute(data: CreateUserDto) {
     const adminSignupToken = process.env.ADMIN_SIGNUP_TOKEN;
-    const { signupToken } = data;
+    const { signupToken, password, passwordConfirmation } = data;
 
     if (!signupToken || signupToken !== adminSignupToken) {
       throw new AppError(
@@ -24,6 +24,14 @@ export class CreateAdminUserService {
       );
     }
     delete data.signupToken;
+
+    if (password !== passwordConfirmation) {
+      throw new AppError(
+        'user-service.createAdminUser',
+        400,
+        'passwords do not match',
+      );
+    }
 
     try {
       const user = await this.userRepository.createUser(data, UserRole.ADMIN);
