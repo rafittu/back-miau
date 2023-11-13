@@ -64,5 +64,19 @@ describe('UserServices', () => {
         expect(error.code).toBe(400);
       }
     });
+
+    it('should throw an error if passwords do not match', async () => {
+      const invalidPasswordBody = {
+        ...mockCreateUserBody,
+        passwordConfirmation: 'invalidPassword',
+      };
+
+      try {
+        await createAdminService.execute(invalidPasswordBody);
+      } catch (error) {
+        expect(error).toBeInstanceOf(AppError);
+        expect(error.code).toBe(400);
+      }
+    });
   });
 });
