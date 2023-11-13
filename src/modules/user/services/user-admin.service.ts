@@ -4,6 +4,7 @@ import { IUserRepository } from '../interfaces/repository.interface';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UserRole } from '../enum/user-role.enum';
 import { AppError } from '../../../common/errors/Error';
+import { EmployeeInfo } from '@prisma/client';
 
 @Injectable()
 export class CreateAdminUserService {
@@ -12,7 +13,7 @@ export class CreateAdminUserService {
     private userRepository: IUserRepository,
   ) {}
 
-  async execute(data: CreateUserDto) {
+  async execute(data: CreateUserDto): Promise<EmployeeInfo> {
     const adminSignupToken = process.env.ADMIN_SIGNUP_TOKEN;
     const { signupToken, password, passwordConfirmation } = data;
 
