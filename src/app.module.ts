@@ -17,6 +17,7 @@ import { JwtAuthGuard } from './common/infra/guards/jwt-auth.guard';
         POSTGRES_USER: Joi.string().required(),
         POSTGRES_PASSWORD: Joi.string().required(),
         POSTGRES_HOST_CONTAINER: Joi.string().required(),
+        ADMIN_SIGNUP_TOKEN: Joi.string().required(),
       }),
     }),
     UserModule,
