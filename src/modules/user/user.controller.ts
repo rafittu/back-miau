@@ -13,7 +13,7 @@ export class UserController {
 
   @isPublic()
   @Post('/admin')
-  create(@Body() createUserDto: CreateUserDto): Promise<EmployeeInfo> {
+  createAdmin(@Body() createUserDto: CreateUserDto): Promise<EmployeeInfo> {
     return this.adminUserService.execute(createUserDto);
   }
 
