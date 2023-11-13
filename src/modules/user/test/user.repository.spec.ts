@@ -2,8 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { PrismaService } from '../../../prisma.service';
 import { UserRepository } from '../repository/user.repository';
 import { UserRole } from '../enum/user-role.enum';
-// import { AppError } from '../../../common/errors/Error';
-// import { Prisma } from '@prisma/client';
+import { AppError } from '../../../common/errors/Error';
+import { Prisma } from '@prisma/client';
 import {
   mockCreateUserBody,
   mockPrismaEmployee,
@@ -41,45 +41,29 @@ describe('UserRepository', () => {
       expect(result).toEqual(mockPrismaEmployee);
     });
 
-    // it('should throw an AppError when almaRequest throws an error', async () => {
-    //   jest
-    //     .spyOn(userRepository as any, 'almaRequest')
-    //     .mockRejectedValueOnce(
-    //       new AppError('error.code', 400, 'Error message'),
-    //     );
+    it('should throw an AppError for PrismaClientKnownRequestError', async () => {
+      const prismaError = new Prisma.PrismaClientKnownRequestError(
+        'error message',
+        {
+          code: 'error code',
+          clientVersion: '',
+        },
+      );
 
-    //   try {
-    //     await userRepository.createUser(mockCreateUserBody, UserRole.CLIENT);
-    //   } catch (error) {
-    //     expect(error).toBeInstanceOf(AppError);
-    //     expect(error.code).toBe(400);
-    //     expect(error.message).toBe('Error message');
-    //   }
-    // });
+      jest
+        .spyOn(prismaService.employeeInfo, 'create')
+        .mockRejectedValueOnce(prismaError);
 
-    // it('should throw an AppError for PrismaClientKnownRequestError', async () => {
-    //   const prismaError = new Prisma.PrismaClientKnownRequestError(
-    //     'error message',
-    //     {
-    //       code: 'error code',
-    //       clientVersion: '',
-    //     },
-    //   );
-
-    //   jest
-    //     .spyOn(userRepository as any, 'almaRequest')
-    //     .mockRejectedValueOnce(prismaError);
-
-    //   try {
-    //     await userRepository.createUser(mockCreateUserBody, UserRole.CLIENT);
-    //   } catch (error) {
-    //     expect(error).toBeInstanceOf(AppError);
-    //     expect(error.code).toBe(400);
-    //     expect(error.message).toBe(
-    //       `[ '${error.meta?.target}' ] already in use`,
-    //     );
-    //   }
-    // });
+      try {
+        await userRepository.createUser(mockCreateUserBody, UserRole.ADMIN);
+      } catch (error) {
+        expect(error).toBeInstanceOf(AppError);
+        expect(error.code).toBe(400);
+        expect(error.message).toBe(
+          `[ '${error.meta?.target}' ] already in use`,
+        );
+      }
+    });
 
     // it('should throw an error if user is not created', async () => {
     //   jest
