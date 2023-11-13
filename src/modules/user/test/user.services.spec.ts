@@ -2,8 +2,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { CreateAdminUserService } from '../services/user-admin.service';
 import { UserRepository } from '../repository/user.repository';
 import { AppError } from '../../../common/errors/Error';
-import { mockPrismaEmployee } from './mocks/user.repository.mock';
-import { mockCreateUserBody } from './mocks/user.services.mock';
+import {
+  mockCreateUserBody,
+  mockPrismaEmployee,
+} from './mocks/user.module.mock';
 
 describe('UserServices', () => {
   let createAdminService: CreateAdminUserService;

@@ -7,7 +7,7 @@ import { Prisma } from '@prisma/client';
 import {
   mockCreateUserBody,
   mockPrismaEmployee,
-} from './mocks/user.repository.mock';
+} from './mocks/user.module.mock';
 
 describe('UserRepository', () => {
   let userRepository: UserRepository;

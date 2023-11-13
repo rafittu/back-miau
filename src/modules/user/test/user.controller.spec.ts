@@ -4,7 +4,7 @@ import { CreateAdminUserService } from '../services/user-admin.service';
 import {
   mockCreateUserBody,
   mockPrismaEmployee,
-} from './mocks/user.controller.mock';
+} from './mocks/user.module.mock';
 
 describe('UserController', () => {
   let controller: UserController;
