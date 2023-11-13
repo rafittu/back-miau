@@ -28,8 +28,8 @@ export class UserRepository implements IUserRepository {
       const encryptedPassword = await bcrypt.hash(password, salt);
 
       const userBodyRequest = {
-        first_name: firstName,
-        last_name: lastName,
+        first_name: firstName.toUpperCase(),
+        last_name: lastName.toUpperCase(),
         username,
         email,
         password: encryptedPassword,
