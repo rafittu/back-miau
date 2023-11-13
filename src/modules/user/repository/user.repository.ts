@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { EmployeeInfo, Prisma } from '@prisma/client';
 import { PrismaService } from '../../../prisma.service';
 import { AppError } from '../../../common/errors/Error';
 import { IUserRepository } from '../interfaces/repository.interface';
@@ -11,7 +11,7 @@ import { UserRole } from '../enum/user-role.enum';
 export class UserRepository implements IUserRepository {
   constructor(private prisma: PrismaService) {}
 
-  async createUser(data: CreateUserDto, role: UserRole) {
+  async createUser(data: CreateUserDto, role: UserRole): Promise<EmployeeInfo> {
     const {
       firstName,
       lastName,
@@ -42,6 +42,8 @@ export class UserRepository implements IUserRepository {
       const user = await this.prisma.employeeInfo.create({
         data: userBodyRequest,
       });
+
+      delete user.password;
 
       return user;
     } catch (error) {
