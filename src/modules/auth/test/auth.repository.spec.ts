@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt';
 import {
   mockPrismaFindFirst,
   mockUserCredentials,
-  mockUserValidated,
+  mockSigninPayload,
 } from './mocks/auth.module.mock';
 import { AppError } from '../../../common/errors/Error';
 
@@ -38,7 +38,7 @@ describe('Auth Repository', () => {
       const result = await authRepository.validateUser(mockUserCredentials);
 
       expect(prismaService.employeeInfo.findFirst).toHaveBeenCalledTimes(1);
-      expect(result).toEqual(mockUserValidated);
+      expect(result).toEqual(mockSigninPayload);
     });
 
     it('should throw an error if email or password is invalid', async () => {
