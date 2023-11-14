@@ -1,7 +1,7 @@
 import { Body, Controller, Post, UseFilters } from '@nestjs/common';
 import { HttpExceptionFilter } from '../../common/filter/http-exception.filter';
 import { AppError } from '../../common/errors/Error';
-import { isPublic } from '../../common/infra/decorators/is-public.decorator';
+import { isPublic } from '../auth/infra/decorators/is-public.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
 import { CreateAdminUserService } from './services/user-admin.service';
 import { EmployeeInfo } from '@prisma/client';
