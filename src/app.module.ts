@@ -4,7 +4,8 @@ import * as Joi from 'joi';
 import { PrismaService } from './prisma.service';
 import { UserModule } from './modules/user/user.module';
 import { APP_GUARD } from '@nestjs/core';
-import { JwtAuthGuard } from './common/infra/guards/jwt-auth.guard';
+import { JwtAuthGuard } from './modules/auth/infra/guards/jwt-auth.guard';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -18,9 +19,12 @@ import { JwtAuthGuard } from './common/infra/guards/jwt-auth.guard';
         POSTGRES_PASSWORD: Joi.string().required(),
         POSTGRES_HOST_CONTAINER: Joi.string().required(),
         ADMIN_SIGNUP_TOKEN: Joi.string().required(),
+        JWT_SECRET: Joi.string().required(),
+        JWT_EXPIRATION: Joi.string().required(),
       }),
     }),
     UserModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [
