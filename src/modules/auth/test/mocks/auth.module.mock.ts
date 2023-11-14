@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { CredentialsDto } from '../../dto/credentials.dto';
 import { EmployeeInfo, EmployeeRole, EmployeeStatus } from '@prisma/client';
+import { JtwPayload, UserPayload } from '../../interfaces/services.interface';
 
 export const mockUserCredentials: CredentialsDto = {
   email: faker.internet.email(),
@@ -22,8 +23,16 @@ export const mockPrismaFindFirst: EmployeeInfo = {
   updated_at: faker.date.recent(),
 };
 
-export const mockUserValidated: Partial<EmployeeInfo> = {
+export const mockSigninPayload: UserPayload = {
   id: mockPrismaFindFirst.id,
   username: mockPrismaFindFirst.username,
   role: mockPrismaFindFirst.role,
 };
+
+export const mockJwtPayload: JtwPayload = {
+  sub: mockSigninPayload.id,
+  username: mockSigninPayload.username,
+  role: mockSigninPayload.role,
+};
+
+export const mockJwt = faker.string.alphanumeric();
