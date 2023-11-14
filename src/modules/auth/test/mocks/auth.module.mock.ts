@@ -1,7 +1,12 @@
 import { faker } from '@faker-js/faker';
 import { CredentialsDto } from '../../dto/credentials.dto';
 import { EmployeeInfo, EmployeeRole, EmployeeStatus } from '@prisma/client';
-import { JtwPayload, UserPayload } from '../../interfaces/services.interface';
+import {
+  AuthRequest,
+  JtwPayload,
+  UserPayload,
+  UserToken,
+} from '../../interfaces/services.interface';
 
 export const mockUserCredentials: CredentialsDto = {
   email: faker.internet.email(),
@@ -36,3 +41,11 @@ export const mockJwtPayload: JtwPayload = {
 };
 
 export const mockJwt = faker.string.alphanumeric();
+
+export const mockAuthRequest: AuthRequest = Object.create(
+  AuthRequest.prototype,
+);
+
+export const mockAccessToken: UserToken = {
+  accessToken: faker.string.alphanumeric(),
+};
