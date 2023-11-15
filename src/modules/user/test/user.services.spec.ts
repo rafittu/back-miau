@@ -130,5 +130,19 @@ describe('UserServices', () => {
       expect(userRepository.createUser).toHaveBeenCalledTimes(1);
       expect(result).toEqual(mockPrismaEmployee);
     });
+
+    it('should throw an error if passwords do not match', async () => {
+      const invalidPasswordBody = {
+        ...mockCreateUserBody,
+        passwordConfirmation: 'invalidPassword',
+      };
+
+      try {
+        await createEmployeeService.execute(invalidPasswordBody);
+      } catch (error) {
+        expect(error).toBeInstanceOf(AppError);
+        expect(error.code).toBe(400);
+      }
+    });
   });
 });
