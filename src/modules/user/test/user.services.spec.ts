@@ -116,4 +116,19 @@ describe('UserServices', () => {
       }
     });
   });
+
+  describe('create employee user', () => {
+    it('should create a new one successfully', async () => {
+      mockPrismaEmployee.role = 'EMPLOYEE';
+
+      jest
+        .spyOn(userRepository, 'createUser')
+        .mockResolvedValueOnce(mockPrismaEmployee);
+
+      const result = await createEmployeeService.execute(mockCreateUserBody);
+
+      expect(userRepository.createUser).toHaveBeenCalledTimes(1);
+      expect(result).toEqual(mockPrismaEmployee);
+    });
+  });
 });
