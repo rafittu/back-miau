@@ -6,9 +6,11 @@ import {
   mockCreateUserBody,
   mockPrismaEmployee,
 } from './mocks/user.module.mock';
+import { CreateEmployeeUserService } from '../services/employee-user.service';
 
 describe('UserServices', () => {
   let createAdminService: CreateAdminUserService;
+  let createEmployeeService: CreateEmployeeUserService;
 
   let userRepository: UserRepository;
 
@@ -16,6 +18,7 @@ describe('UserServices', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         CreateAdminUserService,
+        CreateEmployeeUserService,
         {
           provide: UserRepository,
           useValue: {
@@ -27,6 +30,9 @@ describe('UserServices', () => {
 
     createAdminService = module.get<CreateAdminUserService>(
       CreateAdminUserService,
+    );
+    createEmployeeService = module.get<CreateEmployeeUserService>(
+      CreateEmployeeUserService,
     );
 
     userRepository = module.get<UserRepository>(UserRepository);
@@ -42,6 +48,7 @@ describe('UserServices', () => {
 
   it('should be defined', () => {
     expect(createAdminService).toBeDefined();
+    expect(createEmployeeService).toBeDefined();
   });
 
   describe('create admin user', () => {
