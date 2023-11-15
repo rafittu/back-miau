@@ -72,5 +72,15 @@ describe('UserController', () => {
       expect(createEmployeeService.execute).toHaveBeenCalledTimes(1);
       expect(result).toEqual(mockPrismaEmployee);
     });
+
+    it('should throw an error', async () => {
+      jest
+        .spyOn(createEmployeeService, 'execute')
+        .mockRejectedValueOnce(new Error());
+
+      await expect(
+        controller.createEmployee(mockCreateUserBody),
+      ).rejects.toThrow();
+    });
   });
 });
