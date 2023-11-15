@@ -1,15 +1,17 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from '../user.controller';
-import { CreateAdminUserService } from '../services/user-admin.service';
+import { CreateAdminUserService } from '../services/admin-user.service';
 import {
   mockCreateUserBody,
   mockPrismaEmployee,
 } from './mocks/user.module.mock';
+import { CreateEmployeeUserService } from '../services/employee-user.service';
 
 describe('UserController', () => {
   let controller: UserController;
 
   let createAdminService: CreateAdminUserService;
+  let createEmployeeService: CreateEmployeeUserService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -21,6 +23,12 @@ describe('UserController', () => {
             execute: jest.fn().mockResolvedValue(mockPrismaEmployee),
           },
         },
+        {
+          provide: CreateEmployeeUserService,
+          useValue: {
+            execute: jest.fn().mockResolvedValue(mockPrismaEmployee),
+          },
+        },
       ],
     }).compile();
 
@@ -28,6 +36,9 @@ describe('UserController', () => {
 
     createAdminService = module.get<CreateAdminUserService>(
       CreateAdminUserService,
+    );
+    createEmployeeService = module.get<CreateEmployeeUserService>(
+      CreateEmployeeUserService,
     );
   });
 
@@ -50,6 +61,25 @@ describe('UserController', () => {
 
       await expect(
         controller.createAdmin(mockCreateUserBody),
+      ).rejects.toThrow();
+    });
+  });
+
+  describe('create employee user', () => {
+    it('should create a new one successfully', async () => {
+      const result = await controller.createEmployee(mockCreateUserBody);
+
+      expect(createEmployeeService.execute).toHaveBeenCalledTimes(1);
+      expect(result).toEqual(mockPrismaEmployee);
+    });
+
+    it('should throw an error', async () => {
+      jest
+        .spyOn(createEmployeeService, 'execute')
+        .mockRejectedValueOnce(new Error());
+
+      await expect(
+        controller.createEmployee(mockCreateUserBody),
       ).rejects.toThrow();
     });
   });

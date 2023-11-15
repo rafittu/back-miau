@@ -71,7 +71,7 @@ describe('UserRepository', () => {
         .mockRejectedValueOnce(new Error());
 
       try {
-        await userRepository.createUser(mockCreateUserBody, UserRole.USER);
+        await userRepository.createUser(mockCreateUserBody, UserRole.EMPLOYEE);
       } catch (error) {
         expect(error).toBeInstanceOf(AppError);
         expect(error.code).toBe(500);
