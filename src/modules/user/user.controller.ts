@@ -4,7 +4,7 @@ import { AppError } from '../../common/errors/Error';
 import { isPublic } from '../auth/infra/decorators/is-public.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
 import { EmployeeInfo } from '@prisma/client';
-import { CreateAdminUserService } from './services/user-admin.service';
+import { CreateAdminUserService } from './services/admin-user.service';
 import { CreateEmployeeUserService } from './services/employee-user.service';
 
 @Controller('user')

@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from '../user.controller';
-import { CreateAdminUserService } from '../services/user-admin.service';
+import { CreateAdminUserService } from '../services/admin-user.service';
 import {
   mockCreateUserBody,
   mockPrismaEmployee,
