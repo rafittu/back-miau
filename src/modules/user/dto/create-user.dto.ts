@@ -3,6 +3,7 @@ import {
   IsEmail,
   IsEnum,
   IsNotEmpty,
+  IsOptional,
   IsString,
   Matches,
   MaxLength,
@@ -61,7 +62,7 @@ export class CreateUserDto {
   @IsEnum(EmployeeStatus)
   status: EmployeeStatus;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   signupToken: string;
 }
