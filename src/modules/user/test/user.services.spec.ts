@@ -144,5 +144,33 @@ describe('UserServices', () => {
         expect(error.code).toBe(400);
       }
     });
+
+    it('should throw an App Error', async () => {
+      jest
+        .spyOn(userRepository, 'createUser')
+        .mockRejectedValueOnce(
+          new AppError('error.code', 401, 'Error message'),
+        );
+
+      try {
+        await createEmployeeService.execute(mockCreateUserBody);
+      } catch (error) {
+        expect(error).toBeInstanceOf(AppError);
+        expect(error.code).toBe(401);
+      }
+    });
+
+    it('should throw an error', async () => {
+      jest
+        .spyOn(userRepository, 'createUser')
+        .mockRejectedValueOnce(new Error());
+
+      try {
+        await createEmployeeService.execute(mockCreateUserBody);
+      } catch (error) {
+        expect(error).toBeInstanceOf(AppError);
+        expect(error.code).toBe(400);
+      }
+    });
   });
 });
