@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { EmployeeInfo, EmployeeRole, EmployeeStatus } from '@prisma/client';
 import { CreateUserDto } from '../../dto/create-user.dto';
+import { User } from '../../interfaces/user.interface';
 
 export const mockCreateUserBody: CreateUserDto = {
   firstName: faker.person.firstName(),
@@ -28,4 +29,18 @@ export const mockPrismaEmployee: EmployeeInfo = {
   status: mockCreateUserBody.status,
   created_at: faker.date.past(),
   updated_at: faker.date.recent(),
+};
+
+export const mockUser: User = {
+  id: mockPrismaEmployee.id,
+  firstName: mockPrismaEmployee.first_name,
+  lastName: mockPrismaEmployee.last_name,
+  username: mockPrismaEmployee.username,
+  email: mockPrismaEmployee.password,
+  phone: mockPrismaEmployee.phone,
+  position: mockPrismaEmployee.position,
+  role: mockPrismaEmployee.role,
+  status: mockPrismaEmployee.status,
+  createdAt: mockPrismaEmployee.created_at,
+  updatedAt: mockPrismaEmployee.updated_at,
 };

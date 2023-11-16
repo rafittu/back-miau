@@ -6,12 +6,43 @@ import { IUserRepository } from '../interfaces/repository.interface';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UserRole } from '../enum/user-role.enum';
+import { User } from '../interfaces/user.interface';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
   constructor(private prisma: PrismaService) {}
 
-  async createUser(data: CreateUserDto, role: UserRole): Promise<EmployeeInfo> {
+  private formatUserReturn(employeeData: EmployeeInfo): User {
+    const {
+      id,
+      first_name,
+      last_name,
+      username,
+      email,
+      phone,
+      position,
+      role,
+      status,
+      created_at,
+      updated_at,
+    } = employeeData;
+
+    return {
+      id,
+      firstName: first_name,
+      lastName: last_name,
+      username,
+      email,
+      phone,
+      position,
+      role,
+      status,
+      createdAt: created_at,
+      updatedAt: updated_at,
+    };
+  }
+
+  async createUser(data: CreateUserDto, role: UserRole): Promise<User> {
     const {
       firstName,
       lastName,
@@ -39,11 +70,11 @@ export class UserRepository implements IUserRepository {
         status,
       };
 
-      const user = await this.prisma.employeeInfo.create({
+      const employeeData = await this.prisma.employeeInfo.create({
         data: userBodyRequest,
       });
 
-      delete user.password;
+      const user = this.formatUserReturn(employeeData);
 
       return user;
     } catch (error) {

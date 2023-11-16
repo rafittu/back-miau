@@ -7,6 +7,7 @@ import { Prisma } from '@prisma/client';
 import {
   mockCreateUserBody,
   mockPrismaEmployee,
+  mockUser,
 } from './mocks/user.module.mock';
 
 describe('UserRepository', () => {
@@ -38,7 +39,7 @@ describe('UserRepository', () => {
       );
 
       expect(prismaService.employeeInfo.create).toHaveBeenCalledTimes(1);
-      expect(result).toEqual(mockPrismaEmployee);
+      expect(result).toEqual(mockUser);
     });
 
     it('should throw an AppError for PrismaClientKnownRequestError', async () => {

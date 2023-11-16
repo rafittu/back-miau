@@ -5,6 +5,7 @@ import { AppError } from '../../../common/errors/Error';
 import {
   mockCreateUserBody,
   mockPrismaEmployee,
+  mockUser,
 } from './mocks/user.module.mock';
 import { CreateEmployeeUserService } from '../services/employee-user.service';
 
@@ -53,14 +54,12 @@ describe('UserServices', () => {
 
   describe('create admin user', () => {
     it('should create a new one successfully', async () => {
-      jest
-        .spyOn(userRepository, 'createUser')
-        .mockResolvedValueOnce(mockPrismaEmployee);
+      jest.spyOn(userRepository, 'createUser').mockResolvedValueOnce(mockUser);
 
       const result = await createAdminService.execute(mockCreateUserBody);
 
       expect(userRepository.createUser).toHaveBeenCalledTimes(1);
-      expect(result).toEqual(mockPrismaEmployee);
+      expect(result).toEqual(mockUser);
     });
 
     it('should throw an error if missing signup token', async () => {
@@ -121,14 +120,12 @@ describe('UserServices', () => {
     it('should create a new one successfully', async () => {
       mockPrismaEmployee.role = 'EMPLOYEE';
 
-      jest
-        .spyOn(userRepository, 'createUser')
-        .mockResolvedValueOnce(mockPrismaEmployee);
+      jest.spyOn(userRepository, 'createUser').mockResolvedValueOnce(mockUser);
 
       const result = await createEmployeeService.execute(mockCreateUserBody);
 
       expect(userRepository.createUser).toHaveBeenCalledTimes(1);
-      expect(result).toEqual(mockPrismaEmployee);
+      expect(result).toEqual(mockUser);
     });
 
     it('should throw an error if passwords do not match', async () => {

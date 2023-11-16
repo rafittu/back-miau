@@ -3,9 +3,9 @@ import { HttpExceptionFilter } from '../../common/filter/http-exception.filter';
 import { AppError } from '../../common/errors/Error';
 import { isPublic } from '../auth/infra/decorators/is-public.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
-import { EmployeeInfo } from '@prisma/client';
 import { CreateAdminUserService } from './services/admin-user.service';
 import { CreateEmployeeUserService } from './services/employee-user.service';
+import { User } from './interfaces/user.interface';
 
 @Controller('user')
 @UseFilters(new HttpExceptionFilter(new AppError()))
@@ -17,12 +17,12 @@ export class UserController {
 
   @isPublic()
   @Post('/admin')
-  createAdmin(@Body() createUserDto: CreateUserDto): Promise<EmployeeInfo> {
+  createAdmin(@Body() createUserDto: CreateUserDto): Promise<User> {
     return this.adminUserService.execute(createUserDto);
   }
 
   @Post('/employee')
-  createEmployee(@Body() createUserDto: CreateUserDto): Promise<EmployeeInfo> {
+  createEmployee(@Body() createUserDto: CreateUserDto): Promise<User> {
     return this.employeeUserService.execute(createUserDto);
   }
 
