@@ -2,10 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { EmployeeInfo, Prisma } from '@prisma/client';
 import { PrismaService } from '../../../prisma.service';
 import { AppError } from '../../../common/errors/Error';
-import { IUserRepository, User } from '../interfaces/repository.interface';
+import { IUserRepository } from '../interfaces/repository.interface';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UserRole } from '../enum/user-role.enum';
+import { User } from '../interfaces/user.interface';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -41,7 +42,7 @@ export class UserRepository implements IUserRepository {
     };
   }
 
-  async createUser(data: CreateUserDto, role: UserRole): Promise<EmployeeInfo> {
+  async createUser(data: CreateUserDto, role: UserRole): Promise<User> {
     const {
       firstName,
       lastName,
@@ -69,13 +70,11 @@ export class UserRepository implements IUserRepository {
         status,
       };
 
-      const user = await this.prisma.employeeInfo.create({
+      const employeeData = await this.prisma.employeeInfo.create({
         data: userBodyRequest,
       });
 
-      delete user.password;
-
-      console.log(user);
+      const user = this.formatUserReturn(employeeData);
 
       return user;
     } catch (error) {
