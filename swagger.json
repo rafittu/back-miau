@@ -301,6 +301,84 @@
           }
         }
       }
+    },
+
+    "/auth/signin": {
+      "post": {
+        "summary": "User login",
+        "description": "Authenticate a user with the provided credentials",
+        "tags": ["Authentication"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCredentials"
+              },
+              "example": {
+                "email": "johndoe@example.com",
+                "password": "password123"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User authenticated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessToken"
+                },
+                "example": {
+                  "accessToken": "eyJhbGciOiJ.eyJzdW5MDIyfQ.SflKxwk6yJV_adQssw5c"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "example1": {
+                    "summary": "Invalid email format",
+                    "value": {
+                      "error": {
+                        "message": "[ email ] must be an email",
+                        "code": "bad.request",
+                        "status": true
+                      },
+                      "data": {}
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "message": "email or password is invalid",
+                    "code": "local-auth.guards",
+                    "status": true
+                  },
+                  "data": {}
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
 
@@ -415,6 +493,16 @@
           "updatedAt": {
             "type": "string",
             "description": "Date and time of user update"
+          }
+        }
+      },
+
+      "AccessToken": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "description": "Access token used for authentication in subsequent API calls. This token should be included in the 'Authorization' header as a Bearer Token"
           }
         }
       },
