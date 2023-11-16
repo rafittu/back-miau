@@ -37,21 +37,6 @@
                     "status": "IN_EXPERIENCE",
                     "signupToken": "admin_signup_token"
                   }
-                },
-                "example2": {
-                  "summary": "Example of a valid user registration",
-                  "value": {
-                    "firstName": "John",
-                    "lastName": "Doe",
-                    "username": "johndoe",
-                    "phone": "1234567890",
-                    "email": "johndoe@example.com",
-                    "password": "Password123",
-                    "passwordConfirmation": "Password123",
-                    "position": "Back-end developer",
-                    "status": "HIRED",
-                    "signupToken": "admin_signup_token"
-                  }
                 }
               }
             }
@@ -63,7 +48,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/UserData"
                 },
                 "example": {
                   "accessToken": "eyJhbGciOiJ.eyJzdW5MDIyfQ.SflKxwk6yJV_adQssw5c"
@@ -152,7 +137,148 @@
     }
   },
   "components": {
-    "schemas": {},
+    "schemas": {
+      "SignUp": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "maxLength": 125,
+            "description": "First name of the user"
+          },
+          "lastName": {
+            "type": "string",
+            "maxLength": 125,
+            "description": "Last name of the user"
+          },
+          "username": {
+            "type": "string",
+            "maxLength": 45,
+            "description": "Username of the user"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Phone number of the user"
+          },
+          "email": {
+            "type": "string",
+            "maxLength": 250,
+            "description": "Email address of the user"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 7,
+            "description": "Password of the user"
+          },
+          "passwordConfirmation": {
+            "type": "string",
+            "description": "Password confirmation"
+          },
+          "position": {
+            "type": "string",
+            "description": "Job title of the user"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["IN_EXPERIENCE", "HIRED"],
+            "description": "The status of the employee"
+          },
+          "signupToken": {
+            "type": "string",
+            "description": "Admin token to signup"
+          }
+        },
+        "required": [
+          "firstName",
+          "lastName",
+          "motherName",
+          "email",
+          "password",
+          "passwordConfirmation",
+          "position",
+          "status",
+          "signupToken"
+        ]
+      },
+      "UserData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "User ID"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "First name of the user"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Last name of the user"
+          },
+          "username": {
+            "type": "string",
+            "description": "Username of the user"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email address of the user"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Phone number of the user"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["IN_EXPERIENCE", "HIRED", "FIRED"],
+            "description": "User status"
+          },
+          "position": {
+            "type": "string",
+            "description": "User job title"
+          },
+          "role": {
+            "type": "string",
+            "enum": ["ADMIN", "EMPLOYEE"],
+            "description": "User account role"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Date and time of user creation"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Date and time of user update"
+          }
+        }
+      },
+
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "description": "Error message"
+              },
+              "code": {
+                "type": "string",
+                "description": "Error code"
+              },
+              "status": {
+                "type": "boolean",
+                "description": "Error status"
+              }
+            }
+          },
+          "data": {
+            "type": "object",
+            "properties": {}
+          }
+        }
+      }
+    },
     "securitySchemas": {}
   }
 }
