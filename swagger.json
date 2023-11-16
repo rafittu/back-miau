@@ -51,7 +51,17 @@
                   "$ref": "#/components/schemas/UserData"
                 },
                 "example": {
-                  "accessToken": "eyJhbGciOiJ.eyJzdW5MDIyfQ.SflKxwk6yJV_adQssw5c"
+                  "id": "dqw9q99-cenjje7-feiww8",
+                  "firstName": "John",
+                  "lastName": "Doe",
+                  "username": "johndoe",
+                  "phone": "1234567890",
+                  "email": "johndoe@example.com",
+                  "position": "Back-end developer",
+                  "role": "ADMIN",
+                  "status": "IN_EXPERIENCE",
+                  "createdAt": "2023-07-20T12:00:00Z",
+                  "updatedAt": "2023-07-20T12:00:00Z"
                 }
               }
             }
@@ -134,8 +144,165 @@
           }
         }
       }
+    },
+    "/user/employee": {
+      "post": {
+        "summary": "Create a new employee user",
+        "description": "Route to register new employee users",
+        "tags": ["User"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer {token}",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignUp"
+              },
+              "examples": {
+                "example1": {
+                  "summary": "Example of a valid user registration",
+                  "value": {
+                    "firstName": "Triz",
+                    "lastName": "Doe",
+                    "username": "trizdoe",
+                    "phone": "1234567890",
+                    "email": "trizdoe@example.com",
+                    "password": "Password123",
+                    "passwordConfirmation": "Password123",
+                    "position": "Front-end developer",
+                    "status": "IN_EXPERIENCE"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserData"
+                },
+                "example": {
+                  "id": "dqw9q99-cesdfde7-f9f9bf8",
+                  "firstName": "Triz",
+                  "lastName": "Doe",
+                  "username": "trizdoe",
+                  "phone": "1234567890",
+                  "email": "trizdoe@example.com",
+                  "position": "Front-end developer",
+                  "role": "ADMIN",
+                  "status": "IN_EXPERIENCE",
+                  "createdAt": "2023-09-20T12:00:00Z",
+                  "updatedAt": "2023-09-20T12:00:00Z"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "example1": {
+                    "summary": "Dto validation",
+                    "value": {
+                      "error": {
+                        "message": [
+                          "One or more fields are missing or invalid"
+                        ],
+                        "code": "bad.request",
+                        "status": true
+                      },
+                      "data": {}
+                    }
+                  },
+                  "example2": {
+                    "summary": "Invalid password",
+                    "value": {
+                      "error": {
+                        "message": "passwords do not match",
+                        "code": "user-service.createAdminUser",
+                        "status": true
+                      },
+                      "data": {}
+                    }
+                  },
+                  "example3": {
+                    "summary": "Field already taken",
+                    "value": {
+                      "error": {
+                        "message": "[ 'field' ] already in use",
+                        "code": "user-repository.createUser",
+                        "status": true
+                      },
+                      "data": {}
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "message": "Unauthorized",
+                    "code": "auth-guard.jwtAuth",
+                    "status": true
+                  },
+                  "data": {}
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "message": "user not created",
+                    "code": "user-repository.createUser",
+                    "status": true
+                  },
+                  "data": {}
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
+
   "components": {
     "schemas": {
       "SignUp": {
@@ -196,8 +363,7 @@
           "password",
           "passwordConfirmation",
           "position",
-          "status",
-          "signupToken"
+          "status"
         ]
       },
       "UserData": {
