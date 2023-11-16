@@ -1,10 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from '../user.controller';
 import { CreateAdminUserService } from '../services/admin-user.service';
-import {
-  mockCreateUserBody,
-  mockPrismaEmployee,
-} from './mocks/user.module.mock';
+import { mockCreateUserBody, mockUser } from './mocks/user.module.mock';
 import { CreateEmployeeUserService } from '../services/employee-user.service';
 
 describe('UserController', () => {
@@ -20,13 +17,13 @@ describe('UserController', () => {
         {
           provide: CreateAdminUserService,
           useValue: {
-            execute: jest.fn().mockResolvedValue(mockPrismaEmployee),
+            execute: jest.fn().mockResolvedValue(mockUser),
           },
         },
         {
           provide: CreateEmployeeUserService,
           useValue: {
-            execute: jest.fn().mockResolvedValue(mockPrismaEmployee),
+            execute: jest.fn().mockResolvedValue(mockUser),
           },
         },
       ],
@@ -51,7 +48,7 @@ describe('UserController', () => {
       const result = await controller.createAdmin(mockCreateUserBody);
 
       expect(createAdminService.execute).toHaveBeenCalledTimes(1);
-      expect(result).toEqual(mockPrismaEmployee);
+      expect(result).toEqual(mockUser);
     });
 
     it('should throw an error', async () => {
@@ -70,7 +67,7 @@ describe('UserController', () => {
       const result = await controller.createEmployee(mockCreateUserBody);
 
       expect(createEmployeeService.execute).toHaveBeenCalledTimes(1);
-      expect(result).toEqual(mockPrismaEmployee);
+      expect(result).toEqual(mockUser);
     });
 
     it('should throw an error', async () => {
