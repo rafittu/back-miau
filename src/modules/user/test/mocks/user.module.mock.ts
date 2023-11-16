@@ -32,15 +32,15 @@ export const mockPrismaEmployee: EmployeeInfo = {
 };
 
 export const mockUser: User = {
-  id: faker.string.uuid(),
-  firstName: mockCreateUserBody.firstName,
-  lastName: mockCreateUserBody.lastName,
-  username: mockCreateUserBody.username,
-  email: mockCreateUserBody.password,
-  phone: mockCreateUserBody.phone,
-  position: mockCreateUserBody.position,
-  role: EmployeeRole.ADMIN,
-  status: mockCreateUserBody.status,
-  createdAt: faker.date.past(),
-  updatedAt: faker.date.recent(),
+  id: mockPrismaEmployee.id,
+  firstName: mockPrismaEmployee.first_name,
+  lastName: mockPrismaEmployee.last_name,
+  username: mockPrismaEmployee.username,
+  email: mockPrismaEmployee.password,
+  phone: mockPrismaEmployee.phone,
+  position: mockPrismaEmployee.position,
+  role: mockPrismaEmployee.role,
+  status: mockPrismaEmployee.status,
+  createdAt: mockPrismaEmployee.created_at,
+  updatedAt: mockPrismaEmployee.updated_at,
 };
