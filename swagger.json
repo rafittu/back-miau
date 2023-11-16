@@ -2,12 +2,456 @@
   "openapi": "3.0.0",
   "info": {
     "title": "MIAU Backend API Documentation",
-    "description": "Back-end API to improve workplace environment",
+    "description": "Back-end API to improve shareable environments",
     "contact": {
       "name": "Rafael Ribeiro",
       "url": "https://www.wophi.be/miau/support",
       "email": "miau@wophi.be"
     },
     "version": "0.0.1"
+  },
+  "paths": {
+    "/user/admin": {
+      "post": {
+        "summary": "Create a new admin user",
+        "description": "Route to register new admin users",
+        "tags": ["User"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignUp"
+              },
+              "examples": {
+                "example1": {
+                  "summary": "Example of a valid user registration",
+                  "value": {
+                    "firstName": "John",
+                    "lastName": "Doe",
+                    "username": "johndoe",
+                    "phone": "1234567890",
+                    "email": "johndoe@example.com",
+                    "password": "Password123",
+                    "passwordConfirmation": "Password123",
+                    "position": "Back-end developer",
+                    "status": "IN_EXPERIENCE",
+                    "signupToken": "admin_signup_token"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserData"
+                },
+                "example": {
+                  "id": "dqw9q99-cenjje7-feiww8",
+                  "firstName": "John",
+                  "lastName": "Doe",
+                  "username": "johndoe",
+                  "phone": "1234567890",
+                  "email": "johndoe@example.com",
+                  "position": "Back-end developer",
+                  "role": "ADMIN",
+                  "status": "IN_EXPERIENCE",
+                  "createdAt": "2023-07-20T12:00:00Z",
+                  "updatedAt": "2023-07-20T12:00:00Z"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "example1": {
+                    "summary": "Dto validation",
+                    "value": {
+                      "error": {
+                        "message": [
+                          "One or more fields are missing or invalid"
+                        ],
+                        "code": "bad.request",
+                        "status": true
+                      },
+                      "data": {}
+                    }
+                  },
+                  "example2": {
+                    "summary": "Missing or invalid field",
+                    "value": {
+                      "error": {
+                        "message": "missing or invalid signup token",
+                        "code": "user-service.createAdminUser",
+                        "status": true
+                      },
+                      "data": {}
+                    }
+                  },
+                  "example3": {
+                    "summary": "Invalid password",
+                    "value": {
+                      "error": {
+                        "message": "passwords do not match",
+                        "code": "user-service.createAdminUser",
+                        "status": true
+                      },
+                      "data": {}
+                    }
+                  },
+                  "example4": {
+                    "summary": "Field already taken",
+                    "value": {
+                      "error": {
+                        "message": "[ 'field' ] already in use",
+                        "code": "user-repository.createUser",
+                        "status": true
+                      },
+                      "data": {}
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "message": "user not created",
+                    "code": "user-repository.createUser",
+                    "status": true
+                  },
+                  "data": {}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/employee": {
+      "post": {
+        "summary": "Create a new employee user",
+        "description": "Route to register new employee users",
+        "tags": ["User"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer {token}",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignUp"
+              },
+              "examples": {
+                "example1": {
+                  "summary": "Example of a valid user registration",
+                  "value": {
+                    "firstName": "Triz",
+                    "lastName": "Doe",
+                    "username": "trizdoe",
+                    "phone": "1234567890",
+                    "email": "trizdoe@example.com",
+                    "password": "Password123",
+                    "passwordConfirmation": "Password123",
+                    "position": "Front-end developer",
+                    "status": "IN_EXPERIENCE"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserData"
+                },
+                "example": {
+                  "id": "dqw9q99-cesdfde7-f9f9bf8",
+                  "firstName": "Triz",
+                  "lastName": "Doe",
+                  "username": "trizdoe",
+                  "phone": "1234567890",
+                  "email": "trizdoe@example.com",
+                  "position": "Front-end developer",
+                  "role": "ADMIN",
+                  "status": "IN_EXPERIENCE",
+                  "createdAt": "2023-09-20T12:00:00Z",
+                  "updatedAt": "2023-09-20T12:00:00Z"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "example1": {
+                    "summary": "Dto validation",
+                    "value": {
+                      "error": {
+                        "message": [
+                          "One or more fields are missing or invalid"
+                        ],
+                        "code": "bad.request",
+                        "status": true
+                      },
+                      "data": {}
+                    }
+                  },
+                  "example2": {
+                    "summary": "Invalid password",
+                    "value": {
+                      "error": {
+                        "message": "passwords do not match",
+                        "code": "user-service.createAdminUser",
+                        "status": true
+                      },
+                      "data": {}
+                    }
+                  },
+                  "example3": {
+                    "summary": "Field already taken",
+                    "value": {
+                      "error": {
+                        "message": "[ 'field' ] already in use",
+                        "code": "user-repository.createUser",
+                        "status": true
+                      },
+                      "data": {}
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "message": "Unauthorized",
+                    "code": "auth-guard.jwtAuth",
+                    "status": true
+                  },
+                  "data": {}
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "message": "user not created",
+                    "code": "user-repository.createUser",
+                    "status": true
+                  },
+                  "data": {}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "SignUp": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "maxLength": 125,
+            "description": "First name of the user"
+          },
+          "lastName": {
+            "type": "string",
+            "maxLength": 125,
+            "description": "Last name of the user"
+          },
+          "username": {
+            "type": "string",
+            "maxLength": 45,
+            "description": "Username of the user"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Phone number of the user"
+          },
+          "email": {
+            "type": "string",
+            "maxLength": 250,
+            "description": "Email address of the user"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 7,
+            "description": "Password of the user"
+          },
+          "passwordConfirmation": {
+            "type": "string",
+            "description": "Password confirmation"
+          },
+          "position": {
+            "type": "string",
+            "description": "Job title of the user"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["IN_EXPERIENCE", "HIRED"],
+            "description": "The status of the employee"
+          },
+          "signupToken": {
+            "type": "string",
+            "description": "Admin token to signup"
+          }
+        },
+        "required": [
+          "firstName",
+          "lastName",
+          "motherName",
+          "email",
+          "password",
+          "passwordConfirmation",
+          "position",
+          "status"
+        ]
+      },
+      "UserData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "User ID"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "First name of the user"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Last name of the user"
+          },
+          "username": {
+            "type": "string",
+            "description": "Username of the user"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email address of the user"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Phone number of the user"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["IN_EXPERIENCE", "HIRED", "FIRED"],
+            "description": "User status"
+          },
+          "position": {
+            "type": "string",
+            "description": "User job title"
+          },
+          "role": {
+            "type": "string",
+            "enum": ["ADMIN", "EMPLOYEE"],
+            "description": "User account role"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Date and time of user creation"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Date and time of user update"
+          }
+        }
+      },
+
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "description": "Error message"
+              },
+              "code": {
+                "type": "string",
+                "description": "Error code"
+              },
+              "status": {
+                "type": "boolean",
+                "description": "Error status"
+              }
+            }
+          },
+          "data": {
+            "type": "object",
+            "properties": {}
+          }
+        }
+      }
+    },
+    "securitySchemas": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
   }
 }
