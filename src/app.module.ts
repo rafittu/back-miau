@@ -1,10 +1,38 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { ConfigModule } from '@nestjs/config';
+import * as Joi from 'joi';
+import { PrismaService } from './prisma.service';
+import { UserModule } from './modules/user/user.module';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './modules/auth/infra/guards/jwt-auth.guard';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      validationSchema: Joi.object({
+        PORT: Joi.number().default(3001),
+        DATABASE_URL: Joi.string().required(),
+        POSTGRES_DB: Joi.string().required(),
+        POSTGRES_USER: Joi.string().required(),
+        POSTGRES_PASSWORD: Joi.string().required(),
+        POSTGRES_HOST_CONTAINER: Joi.string().required(),
+        ADMIN_SIGNUP_TOKEN: Joi.string().required(),
+        JWT_SECRET: Joi.string().required(),
+        JWT_EXPIRATION: Joi.string().required(),
+      }),
+    }),
+    UserModule,
+    AuthModule,
+  ],
+  controllers: [],
+  providers: [
+    PrismaService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ],
 })
 export class AppModule {}
