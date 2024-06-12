@@ -1,73 +1,75 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# 🐚 Back-end da aplicação MIAU
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+###
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+<br>
 
-## Description
+A API MIAU está sendo desenvolvida com o propósito de reinventar o ambiente de trabalho e espaços compartilhados, promovendo participação, colaboração e a busca constante por melhorias.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Ao adotar o nome "MIAU", entramos na sensibilidade dos gatos que fazem com que eles sejam capazes de absorver energias, assim como um filtro, limpando o que é negativo. Assim como nossos amigos felinos, a plataforma visa transformar o que não está ideal, proporcionando um espaço onde as ideias possam prosperar e contribuir para um ambiente mais agradável e estimulante.
 
-## Installation
+<br>
+
+## Tecnologias
+
+Este projeto utiliza as seguintes tecnologias:
+
+- **Node.js** com framework **NestJS** e **TypeScript**;
+- **Prisma ORM** para comunicação e manipulação do banco de dados **PostgreSQL**;
+- **Docker** como uma ferramenta de containerização;
+
+- **Jest** para execução dos testes unitários;
+- **Swagger** para documentação da API;
+
+<br>
+
+## Instalação
+
+Clonando o repositório:
 
 ```bash
+$ git clone git@github.com:rafittu/back-miau.git
+```
+
+Instalando as dependências:
+
+```bash
+$ cd back-miau
 $ npm install
 ```
 
-## Running the app
+<br>
+
+## Iniciando o app
+
+Crie um arquivo `.env` na raiz do projeto e preencha as informações de acordo com o arquivo `.env.example` disponível.
+
+Execute o banco de dados PostgreSQL usando o Docker:
 
 ```bash
-# development
+$ docker-compose up
+```
+
+Para garantir que o banco de dados esteja atualizado com as ultimas alterações, rode o comando:
+
+```bash
+$ npx prisma migrate dev
+```
+
+Iniciando o servidor:
+
+```bash
+# modo de desenvolvimento
 $ npm run start
 
-# watch mode
+# modo de observação
 $ npm run start:dev
-
-# production mode
-$ npm run start:prod
 ```
 
-## Test
+<br>
 
-```bash
-# unit tests
-$ npm run test
+##
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+<p align="right">
+  <a href="https://www.linkedin.com/in/rafittu/">Rafael Ribeiro 🚀</a>
+</p>
