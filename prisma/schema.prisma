@@ -6,3 +6,38 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum EmployeePosition {
+  FRONT_DESK
+  TEACHER
+  MANAGEMENT
+}
+
+enum EmployeeRole {
+  ADMIN
+  EMPLOYEE
+}
+
+enum EmployeeStatus {
+  IN_EXPERIENCE
+  HIRED
+  FIRED
+}
+
+model EmployeeData {
+  id         String           @id @unique @default(uuid()) @db.Uuid
+  alma_id    String           @unique @db.Uuid
+  first_name String           @db.VarChar(125)
+  last_name  String           @db.VarChar(125)
+  username   String           @db.VarChar(45)
+  email      String           @unique @db.VarChar(250)
+  phone      String           @unique @db.VarChar(15)
+  position   EmployeePosition
+  role       EmployeeRole
+  status     EmployeeStatus
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt()
+
+  @@map("employee_data")
+}
