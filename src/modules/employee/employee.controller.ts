@@ -6,17 +6,22 @@ import {
   Patch,
   Param,
   Delete,
+  UseFilters,
 } from '@nestjs/common';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
+import { HttpExceptionFilter } from '../../common/filter/http-exception.filter';
+import { AppError } from '../../common/errors/Error';
+import { CreateAdminService } from './services/admin-user.service';
 
 @Controller('employee')
+@UseFilters(new HttpExceptionFilter(new AppError()))
 export class EmployeeController {
-  constructor() {}
+  constructor(private readonly adminEmployeeService: CreateAdminService) {}
 
-  @Post()
-  create(@Body() createEmployeeDto: CreateEmployeeDto) {
-    return `this.employeeService.create(${createEmployeeDto})`;
+  @Post('/admin')
+  createAdmin(@Body() createEmployeeDto: CreateEmployeeDto) {
+    return this.adminEmployeeService.execute(createEmployeeDto);
   }
 
   @Get()
