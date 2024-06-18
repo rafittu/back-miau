@@ -4,7 +4,7 @@ import { PrismaService } from '../../../prisma.service';
 import { AppError } from '../../../common/errors/Error';
 import { IEmployeeRepository } from '../interfaces/repository.interface';
 import { CreateEmployeeDto } from '../dto/create-employee.dto';
-import { AlmaService } from '../../../common/api/alma.service';
+import { AlmaService } from '../../../common/api/alma/alma.service';
 
 @Injectable()
 export class EmployeeRepository implements IEmployeeRepository {
@@ -19,16 +19,26 @@ export class EmployeeRepository implements IEmployeeRepository {
     status: EmployeeStatus,
   ) {
     try {
-      const employeeData = await this.almaApi.createUser(data);
+      const { id } = await this.almaApi.createUser(data);
 
-      console.log(employeeData, role, status);
+      const employeeData = {
+        alma_id: id,
+        first_name: data.firstName,
+        last_name: data.lastName,
+        username: data.username,
+        email: data.email,
+        phone: data.phone,
+        position: data.position,
+        role,
+        status,
+      };
 
-      // await this.prisma.employeeData.create({
-      //   data: { employeeData, role, status },
-      // });
-
-      return;
+      return await this.prisma.employeeData.create({
+        data: employeeData,
+      });
     } catch (error) {
+      console.log(error);
+
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         throw new AppError(
           `user-repository.createUser`,
