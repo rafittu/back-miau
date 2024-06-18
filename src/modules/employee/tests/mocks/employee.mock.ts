@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { CreateEmployeeDto } from '../../dto/create-employee.dto';
-import { EmployeePosition } from '@prisma/client';
+import { EmployeePosition, EmployeeRole, EmployeeStatus } from '@prisma/client';
+import { ICreateEmployee } from '../../interfaces/employee.interface';
 
 export const MockCreateEmployeeDto: CreateEmployeeDto = {
   firstName: faker.person.firstName(),
@@ -15,4 +16,21 @@ export const MockCreateEmployeeDto: CreateEmployeeDto = {
   password: 'faker.internet.password()',
   passwordConfirmation: 'faker.internet.password()',
   position: EmployeePosition.MANAGEMENT,
+};
+
+export const MockICreateEmployee: ICreateEmployee = {
+  message: 'User created successfully',
+  data: {
+    id: faker.string.uuid(),
+    almaId: faker.string.uuid(),
+    firstName: MockCreateEmployeeDto.firstName,
+    lastName: MockCreateEmployeeDto.lastName,
+    username: MockCreateEmployeeDto.username,
+    email: MockCreateEmployeeDto.email,
+    phone: MockCreateEmployeeDto.phone,
+    position: MockCreateEmployeeDto.position,
+    role: EmployeeRole.ADMIN,
+    status: EmployeeStatus.IN_EXPERIENCE,
+    createdAt: new Date(),
+  },
 };
