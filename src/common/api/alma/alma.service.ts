@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { AppError } from '../errors/Error';
-import { CreateEmployeeDto } from '../../modules/employee/dto/create-employee.dto';
+import { AppError } from '../../errors/Error';
+import { CreateEmployeeDto } from '../../../modules/employee/dto/create-employee.dto';
+import { IAlmaUser } from './interfaces/alma.interface';
 
 export class AlmaService {
   constructor() {}
@@ -32,16 +33,16 @@ export class AlmaService {
     }
   }
 
-  async createUser(data: CreateEmployeeDto) {
+  async createUser(data: CreateEmployeeDto): Promise<IAlmaUser> {
     const PATH = process.env.ALMA_POST_USER_PATH || '';
     const METHOD = 'post';
-
-    delete data.position;
 
     const body = {
       ...data,
       originChannel: 'MIAU',
     };
+
+    delete body.position;
 
     return this.almaRequest(PATH, METHOD, null, body);
   }
