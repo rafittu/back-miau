@@ -42,8 +42,6 @@ export class EmployeeRepository implements IEmployeeRepository {
         data: employeeData,
       });
     } catch (error) {
-      console.log(error);
-
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         throw new AppError(
           `user-repository.createUser`,
