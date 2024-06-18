@@ -13,6 +13,7 @@ import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { HttpExceptionFilter } from '../../common/filter/http-exception.filter';
 import { AppError } from '../../common/errors/Error';
 import { CreateAdminService } from './services/admin-user.service';
+import { ICreateEmployee } from './interfaces/employee.interface';
 
 @Controller('employee')
 @UseFilters(new HttpExceptionFilter(new AppError()))
@@ -20,7 +21,9 @@ export class EmployeeController {
   constructor(private readonly adminEmployeeService: CreateAdminService) {}
 
   @Post('/admin')
-  createAdmin(@Body() createEmployeeDto: CreateEmployeeDto) {
+  createAdmin(
+    @Body() createEmployeeDto: CreateEmployeeDto,
+  ): Promise<ICreateEmployee> {
     return this.adminEmployeeService.execute(createEmployeeDto);
   }
 
