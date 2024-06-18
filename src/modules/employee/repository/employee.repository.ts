@@ -1,5 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { EmployeeRole, EmployeeStatus, Prisma } from '@prisma/client';
+import {
+  EmployeeData,
+  EmployeeRole,
+  EmployeeStatus,
+  Prisma,
+} from '@prisma/client';
 import { PrismaService } from '../../../prisma.service';
 import { AppError } from '../../../common/errors/Error';
 import { IEmployeeRepository } from '../interfaces/repository.interface';
@@ -17,7 +22,7 @@ export class EmployeeRepository implements IEmployeeRepository {
     data: CreateEmployeeDto,
     role: EmployeeRole,
     status: EmployeeStatus,
-  ) {
+  ): Promise<EmployeeData> {
     try {
       const { id } = await this.almaApi.createUser(data);
 
