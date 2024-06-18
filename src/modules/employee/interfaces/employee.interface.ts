@@ -7,6 +7,7 @@ export interface ICreateEmployee {
     almaId: string;
     firstName: string;
     lastName: string;
+    username: string;
     email: string;
     phone: string;
     position: EmployeePosition;

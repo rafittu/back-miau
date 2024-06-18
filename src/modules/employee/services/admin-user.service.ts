@@ -14,7 +14,7 @@ export class CreateAdminService {
   ) {}
 
   async execute(data: CreateEmployeeDto): Promise<ICreateEmployee> {
-    const { firstName, lastName, email, phone, position } = data;
+    const { firstName, lastName, username, email, phone, position } = data;
 
     try {
       const { id, alma_id, created_at } = await this.userRepository.createUser(
@@ -30,6 +30,7 @@ export class CreateAdminService {
           almaId: alma_id,
           firstName,
           lastName,
+          username,
           email,
           phone,
           position,
