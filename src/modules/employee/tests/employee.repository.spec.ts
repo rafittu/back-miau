@@ -2,7 +2,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { EmployeeRepository } from '../repository/employee.repository';
 import { PrismaService } from '../../../prisma.service';
 import { AlmaService } from '../../../common/api/alma/alma.service';
-import { MockIAlmaUser } from './mocks/employee.mock';
+import {
+  MockPrismaEmployeeData,
+  MockIAlmaUser,
+  MockCreateEmployeeDto,
+} from './mocks/employee.mock';
+import { EmployeeRole, EmployeeStatus } from '@prisma/client';
 
 describe('EmployeeRepository', () => {
   let employeeRepository: EmployeeRepository;
@@ -32,5 +37,23 @@ describe('EmployeeRepository', () => {
     expect(employeeRepository).toBeDefined();
     expect(prismaService).toBeDefined();
     expect(almaApi).toBeDefined();
+  });
+
+  describe('create user', () => {
+    it('should create user successfully', async () => {
+      jest
+        .spyOn(prismaService.employeeData, 'create')
+        .mockResolvedValueOnce(MockPrismaEmployeeData);
+
+      const result = await employeeRepository.createUser(
+        MockCreateEmployeeDto,
+        EmployeeRole.ADMIN,
+        EmployeeStatus.IN_EXPERIENCE,
+      );
+
+      expect(almaApi.createUser).toHaveBeenCalledTimes(1);
+      expect(prismaService.employeeData.create).toHaveBeenCalledTimes(1);
+      expect(result).toEqual(MockPrismaEmployeeData);
+    });
   });
 });

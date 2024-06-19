@@ -53,7 +53,7 @@ export const MockIAlmaUser: IAlmaUser = {
   updatedAt: new Date(),
 };
 
-export const MockEmployeeData: EmployeeData = {
+export const MockPrismaEmployeeData: EmployeeData = {
   id: faker.string.uuid(),
   alma_id: MockIAlmaUser.id,
   first_name: MockCreateEmployeeDto.firstName,
@@ -71,16 +71,16 @@ export const MockEmployeeData: EmployeeData = {
 export const MockICreateEmployee: ICreateEmployee = {
   message: 'User created successfully',
   data: {
-    id: MockEmployeeData.id,
-    almaId: MockEmployeeData.alma_id,
-    firstName: MockEmployeeData.first_name,
-    lastName: MockEmployeeData.last_name,
-    username: MockEmployeeData.username,
-    email: MockEmployeeData.email,
-    phone: MockEmployeeData.phone,
-    position: MockEmployeeData.position,
-    role: MockEmployeeData.role,
-    status: MockEmployeeData.status,
-    createdAt: MockEmployeeData.created_at,
+    id: MockPrismaEmployeeData.id,
+    almaId: MockPrismaEmployeeData.alma_id,
+    firstName: MockPrismaEmployeeData.first_name,
+    lastName: MockPrismaEmployeeData.last_name,
+    username: MockPrismaEmployeeData.username,
+    email: MockPrismaEmployeeData.email,
+    phone: MockPrismaEmployeeData.phone,
+    position: MockPrismaEmployeeData.position,
+    role: MockPrismaEmployeeData.role,
+    status: MockPrismaEmployeeData.status,
+    createdAt: MockPrismaEmployeeData.created_at,
   },
 };
