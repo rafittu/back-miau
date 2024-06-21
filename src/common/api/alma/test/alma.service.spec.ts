@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AlmaService } from '../alma.service';
 import axios from 'axios';
 import { MockCreateEmployeeDto } from '../../../../modules/employee/tests/mocks/employee.mock';
+import { AppError } from '../../../app_error/errors/Error';
 
 jest.mock('axios');
 
@@ -49,6 +50,27 @@ describe('ALMA external api', () => {
         }),
       );
       expect(result).toEqual(mockCreateUserAxiosResponse.data);
+    });
+
+    it('should throw an AppError if request fails', async () => {
+      (
+        axios.get as jest.MockedFunction<typeof axios.get>
+      ).mockRejectedValueOnce(AppError);
+
+      const path = 'example.com/api';
+
+      try {
+        await almaService['almaRequest'](
+          path,
+          'post',
+          undefined,
+          MockCreateEmployeeDto,
+        );
+      } catch (error) {
+        expect(error).toBeInstanceOf(AppError);
+        expect(error.code).toBe(500);
+        expect(error.message).toBe('Internal server error');
+      }
     });
   });
 });
