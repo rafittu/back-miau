@@ -1,18 +1,32 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { EmployeeService } from './employee.service';
+import { CreateAdminService } from '../services/admin-user.service';
+import { EmployeeRepository } from '../repository/employee.repository';
+import { MockPrismaEmployeeData } from './mocks/employee.mock';
 
-describe('EmployeeService', () => {
-  let service: EmployeeService;
+describe('Employee Services', () => {
+  let createAdminService: CreateAdminService;
+
+  let employeeRepository: EmployeeRepository;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [EmployeeService],
+      providers: [
+        CreateAdminService,
+        {
+          provide: EmployeeRepository,
+          useValue: {
+            createUser: jest.fn().mockResolvedValue(MockPrismaEmployeeData),
+          },
+        },
+      ],
     }).compile();
 
-    service = module.get<EmployeeService>(EmployeeService);
+    createAdminService = module.get<CreateAdminService>(CreateAdminService);
+
+    employeeRepository = module.get<EmployeeRepository>(EmployeeRepository);
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(createAdminService).toBeDefined();
   });
 });
