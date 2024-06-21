@@ -58,5 +58,18 @@ describe('Employee Services', () => {
         expect(error.message).toEqual('Error message');
       }
     });
+
+    it('should throw an error', async () => {
+      jest
+        .spyOn(employeeRepository, 'createUser')
+        .mockRejectedValueOnce(new Error());
+
+      try {
+        await createAdminService.execute(MockCreateEmployeeDto);
+      } catch (error) {
+        expect(error).toBeInstanceOf(AppError);
+        expect(error.code).toBe(400);
+      }
+    });
   });
 });
