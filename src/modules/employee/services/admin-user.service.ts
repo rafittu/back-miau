@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { EmployeeRepository } from '../repository/employee.repository';
 import { IEmployeeRepository } from '../interfaces/repository.interface';
-import { AppError } from '../../../common/errors/Error';
+import { AppError } from '../../../common/app_error/errors/Error';
 import { CreateEmployeeDto } from '../dto/create-employee.dto';
 import { EmployeeRole, EmployeeStatus } from '@prisma/client';
 import { ICreateEmployee } from '../interfaces/employee.interface';

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AppError } from '../../errors/Error';
+import { AppError } from '../../app_error/errors/Error';
 import { CreateEmployeeDto } from '../../../modules/employee/dto/create-employee.dto';
 import { IAlmaUser } from './interfaces/alma.interface';
 

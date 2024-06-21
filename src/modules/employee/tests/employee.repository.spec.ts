@@ -8,7 +8,7 @@ import {
   MockCreateEmployeeDto,
 } from './mocks/employee.mock';
 import { EmployeeRole, EmployeeStatus, Prisma } from '@prisma/client';
-import { AppError } from '../../../common/errors/Error';
+import { AppError } from '../../../common/app_error/errors/Error';
 
 describe('EmployeeRepository', () => {
   let employeeRepository: EmployeeRepository;

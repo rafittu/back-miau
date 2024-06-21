@@ -6,7 +6,7 @@ import {
   MockICreateEmployee,
   MockPrismaEmployeeData,
 } from './mocks/employee.mock';
-import { AppError } from '../../../common/errors/Error';
+import { AppError } from '../../../common/app_error/errors/Error';
 
 describe('Employee Services', () => {
   let createAdminService: CreateAdminService;

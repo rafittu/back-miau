@@ -6,7 +6,7 @@ import {
   Prisma,
 } from '@prisma/client';
 import { PrismaService } from '../../../prisma.service';
-import { AppError } from '../../../common/errors/Error';
+import { AppError } from '../../../common/app_error/errors/Error';
 import { IEmployeeRepository } from '../interfaces/repository.interface';
 import { CreateEmployeeDto } from '../dto/create-employee.dto';
 import { AlmaService } from '../../../common/api/alma/alma.service';
