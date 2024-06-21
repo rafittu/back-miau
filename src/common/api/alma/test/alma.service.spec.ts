@@ -72,5 +72,18 @@ describe('ALMA external api', () => {
         expect(error.message).toBe('Internal server error');
       }
     });
+
+    it('should create an user', async () => {
+      process.env.ALMA_POST_USER_PATH = 'url_example';
+
+      jest.spyOn(almaService as any, 'almaRequest').mockResolvedValueOnce('');
+      jest.spyOn(almaService, 'createUser');
+
+      await almaService.createUser(MockCreateEmployeeDto);
+
+      delete process.env.ALMA_POST_USER_PATH;
+
+      expect(almaService.createUser).toHaveBeenCalledTimes(1);
+    });
   });
 });

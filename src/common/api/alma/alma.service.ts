@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AppError } from '../../app_error/errors/Error';
+import { AppError } from '../../errors/Error';
 import { CreateEmployeeDto } from '../../../modules/employee/dto/create-employee.dto';
 import { IAlmaUser } from './interfaces/alma.interface';
 
@@ -34,7 +34,7 @@ export class AlmaService {
   }
 
   async createUser(data: CreateEmployeeDto): Promise<IAlmaUser> {
-    const PATH = process.env.ALMA_POST_USER_PATH || '';
+    const PATH = process.env.ALMA_POST_USER_PATH;
     const METHOD = 'post';
 
     const body = {
