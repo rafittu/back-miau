@@ -6,6 +6,7 @@ import {
   MockICreateEmployee,
   MockPrismaEmployeeData,
 } from './mocks/employee.mock';
+import { AppError } from '../../../common/errors/Error';
 
 describe('Employee Services', () => {
   let createAdminService: CreateAdminService;
@@ -40,6 +41,22 @@ describe('Employee Services', () => {
 
       expect(employeeRepository.createUser).toHaveBeenCalledTimes(1);
       expect(result).toEqual(MockICreateEmployee);
+    });
+
+    it('should throw an App Error', async () => {
+      jest
+        .spyOn(employeeRepository, 'createUser')
+        .mockRejectedValueOnce(
+          new AppError('error.code', 401, 'Error message'),
+        );
+
+      try {
+        await createAdminService.execute(MockCreateEmployeeDto);
+      } catch (error) {
+        expect(error).toBeInstanceOf(AppError);
+        expect(error.code).toBe(401);
+        expect(error.message).toEqual('Error message');
+      }
     });
   });
 });
