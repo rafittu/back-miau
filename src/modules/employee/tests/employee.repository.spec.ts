@@ -102,5 +102,23 @@ describe('EmployeeRepository', () => {
         expect(error.message).toBe('error.message');
       }
     });
+
+    it('should throw an error if user is not created', async () => {
+      jest
+        .spyOn(prismaService.employeeData, 'create')
+        .mockRejectedValueOnce(new Error());
+
+      try {
+        await employeeRepository.createUser(
+          MockCreateEmployeeDto,
+          EmployeeRole.ADMIN,
+          EmployeeStatus.IN_EXPERIENCE,
+        );
+      } catch (error) {
+        expect(error).toBeInstanceOf(AppError);
+        expect(error.code).toBe(500);
+        expect(error.message).toBe('user not created');
+      }
+    });
   });
 });
