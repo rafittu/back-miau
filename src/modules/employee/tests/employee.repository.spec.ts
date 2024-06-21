@@ -82,5 +82,25 @@ describe('EmployeeRepository', () => {
         );
       }
     });
+
+    it('should throw an AppError if user is not created in external api', async () => {
+      jest
+        .spyOn(almaApi, 'createUser')
+        .mockRejectedValueOnce(
+          new AppError('alma-service.createUser', 500, 'error.message'),
+        );
+
+      try {
+        await employeeRepository.createUser(
+          MockCreateEmployeeDto,
+          EmployeeRole.ADMIN,
+          EmployeeStatus.IN_EXPERIENCE,
+        );
+      } catch (error) {
+        expect(error).toBeInstanceOf(AppError);
+        expect(error.code).toBe(500);
+        expect(error.message).toBe('error.message');
+      }
+    });
   });
 });
