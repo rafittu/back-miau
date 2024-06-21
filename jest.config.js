@@ -1,7 +1,4 @@
 module.exports = {
-  moduleNameMapper: {
-    axios: 'axios/dist/node/axios.cjs',
-  },
   moduleFileExtensions: ['js', 'json', 'ts'],
   rootDir: 'src',
   testRegex: '.*\\.spec\\.ts$',
