@@ -15,6 +15,7 @@ import { EmployeeModule } from './modules/employee/employee.module';
         POSTGRES_USER: Joi.string().required(),
         POSTGRES_PASSWORD: Joi.string().required(),
         POSTGRES_HOST_CONTAINER: Joi.string().required(),
+        ALMA_POST_USER_PATH: Joi.string().required(),
       }),
     }),
     EmployeeModule,
