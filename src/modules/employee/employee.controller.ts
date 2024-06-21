@@ -10,8 +10,8 @@ import {
 } from '@nestjs/common';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
-import { HttpExceptionFilter } from '../../common/filter/http-exception.filter';
-import { AppError } from '../../common/errors/Error';
+import { HttpExceptionFilter } from '../../common/app_error/filter/http-exception.filter';
+import { AppError } from '../../common/app_error/errors/Error';
 import { CreateAdminService } from './services/admin-user.service';
 import { ICreateEmployee } from './interfaces/employee.interface';
 
