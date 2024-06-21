@@ -7,7 +7,8 @@ import {
   MockIAlmaUser,
   MockCreateEmployeeDto,
 } from './mocks/employee.mock';
-import { EmployeeRole, EmployeeStatus } from '@prisma/client';
+import { EmployeeRole, EmployeeStatus, Prisma } from '@prisma/client';
+import { AppError } from '../../../common/errors/Error';
 
 describe('EmployeeRepository', () => {
   let employeeRepository: EmployeeRepository;
@@ -54,6 +55,32 @@ describe('EmployeeRepository', () => {
       expect(almaApi.createUser).toHaveBeenCalledTimes(1);
       expect(prismaService.employeeData.create).toHaveBeenCalledTimes(1);
       expect(result).toEqual(MockPrismaEmployeeData);
+    });
+
+    it('should throw an AppError for PrismaClientKnownRequestError', async () => {
+      const prismaError = new Prisma.PrismaClientKnownRequestError(
+        'error message',
+        {
+          code: 'error code',
+          clientVersion: '',
+        },
+      );
+
+      jest.spyOn(almaApi, 'createUser').mockRejectedValueOnce(prismaError);
+
+      try {
+        await employeeRepository.createUser(
+          MockCreateEmployeeDto,
+          EmployeeRole.ADMIN,
+          EmployeeStatus.IN_EXPERIENCE,
+        );
+      } catch (error) {
+        expect(error).toBeInstanceOf(AppError);
+        expect(error.code).toBe(400);
+        expect(error.message).toBe(
+          `[ '${error.meta?.target}' ] already in use`,
+        );
+      }
     });
   });
 });
