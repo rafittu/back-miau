@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { PrismaService } from './prisma.service';
+import { EmployeeModule } from './modules/employee/employee.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { PrismaService } from './prisma.service';
         POSTGRES_HOST_CONTAINER: Joi.string().required(),
       }),
     }),
+    EmployeeModule,
   ],
   controllers: [],
   providers: [PrismaService],
